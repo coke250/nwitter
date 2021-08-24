@@ -18,11 +18,10 @@ const Profile = ({ refreshUser, userObj }) => {
   };
 
   const getMyNweets = async () => {
-    const nweets = await dbService
+    await dbService
       .collection('nweets')
       .where('creatorId', '==', userObj.uid)
       .get();
-    console.log(nweets.docs.map((doc) => doc.data()));
   };
 
   const onSubmit = async (event) => {
@@ -38,18 +37,22 @@ const Profile = ({ refreshUser, userObj }) => {
   }, []);
 
   return (
-    <>
-      <form onSubmit={onSubmit}>
+    <div className="container">
+      <form onSubmit={onSubmit} className="profile-form">
         <input
           type="text"
           placeholder="Display name"
           value={newDisplayName}
           onChange={onChange}
+          autoFocus
+          className="form-input"
         />
-        <input type="submit" value="Update Profile" />
+        <input type="submit" value="Update Profile" className="form-btn" style={{marginTop: 10,}} />
       </form>
-      <button onClick={onLogOutClick}>Log Out</button>
-    </>
+      <span className="form-btn cancel-btn logout" onClick={onLogOutClick}>
+        Log Out
+      </span>
+    </div>
   );
 };
 
